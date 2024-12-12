@@ -39,6 +39,11 @@ key.set("n", "<leader>{", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 key.set("n", "<leader>}", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 key.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Format" })
 
+key.set("n", "<leader>tt", "<cmd>split term://zsh", { desc = "Horizontal Terminal" })
+
+local term = require("custom.term")
+key.set("n", "<leader>tv", function() term.split_vertical() end, { desc = "Split Terminal vertically" })
+key.set("n", "<leader>th", function() term.split_horizontal() end, { desc = "Split Terminal horizontally" })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
