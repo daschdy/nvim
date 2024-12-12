@@ -48,6 +48,7 @@ key.set("n", "<leader>tt", "<cmd>split term://zsh", { desc = "Horizontal Termina
 local term = require("custom.term")
 key.set("n", "<leader>tv", function() term.split_vertical() end, { desc = "Split Terminal vertically" })
 key.set("n", "<leader>th", function() term.split_horizontal() end, { desc = "Split Terminal horizontally" })
+key.set("n", "<leader>tf", function() term.float_terminal() end, { desc = "Float Terminal" })
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
 vim.api.nvim_create_augroup("CloseTerminals", { clear = true })
 vim.api.nvim_create_autocmd("TermClose", {
