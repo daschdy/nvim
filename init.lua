@@ -41,9 +41,22 @@ key.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Format" })
 
 key.set("n", "<leader>tt", "<cmd>split term://zsh", { desc = "Horizontal Terminal" })
 
+-- custom term plugin
+--  opens a terminal window in the current buffer
+--  remap terminal exit to <Esc> in terminal mode
+--  close terminal buffer when the terminal is closed
 local term = require("custom.term")
 key.set("n", "<leader>tv", function() term.split_vertical() end, { desc = "Split Terminal vertically" })
 key.set("n", "<leader>th", function() term.split_horizontal() end, { desc = "Split Terminal horizontally" })
+vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
+vim.api.nvim_create_augroup("CloseTerminals", { clear = true })
+vim.api.nvim_create_autocmd("TermClose", {
+    group = "CloseTerminals",
+    pattern = "*",
+    callback = function()
+        vim.cmd("bdelete")
+    end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
