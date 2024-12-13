@@ -49,6 +49,7 @@ local term = require("custom.term")
 key.set("n", "<leader>tv", function() term.split_vertical() end, { desc = "Split Terminal vertically" })
 key.set("n", "<leader>th", function() term.split_horizontal() end, { desc = "Split Terminal horizontally" })
 key.set("n", "<leader>tf", function() term.float_terminal() end, { desc = "Float Terminal" })
+key.set("n", "<leader>tt", function() term.toggle_terminal() end, { desc = "Toggle Terminal" })
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
 vim.api.nvim_create_augroup("CloseTerminals", { clear = true })
 vim.api.nvim_create_autocmd("TermClose", {
@@ -58,6 +59,7 @@ vim.api.nvim_create_autocmd("TermClose", {
         vim.cmd("bdelete")
     end,
 })
+
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
