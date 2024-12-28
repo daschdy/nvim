@@ -5,6 +5,7 @@ return {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         "j-hui/fidget.nvim",
         "stevearc/conform.nvim",
+        "saghen/blink.cmp",
         {
             -- vim omnicompletions
             -- triggered with ctrl+x ctrl+o
@@ -28,7 +29,14 @@ return {
 
     },
 
-    config = function()
+    opts = {
+        servers = {
+            lua_ls = {},
+            clangd = {}
+        }
+    },
+
+    config = function(_, opts)
         require("mason").setup({
             ui = {
                 icons = {
@@ -56,19 +64,6 @@ return {
             },
         })
 
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        local lspconfig = require("lspconfig")
-        local servers = {
-            "lua_ls",
-            "clangd",
-        }
-
-        for _, server in ipairs(servers) do
-            lspconfig[server].setup({
-                capabilities = capabilities,
-            })
-        end
-
         require("conform").setup({
             formatters_by_ft = {
                 lua = { "stylua" },
@@ -76,8 +71,11 @@ return {
             },
         })
 
-        -- check servers with: :help lspconfig-all
-        require("lspconfig").lua_ls.setup {}
+        local lspconfig = require("lspconfig")
+        for server, config in pairs(opts.servers) do
+            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+            lspconfig[server].setup(config)
+        end
 
         -- Automatically format on save
         -- vim.api.nvim_create_autocmd("LspAttach", {
