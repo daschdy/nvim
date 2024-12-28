@@ -61,7 +61,6 @@ return {
         local servers = {
             "lua_ls",
             "clangd",
-            "gopls"
         }
 
         for _, server in ipairs(servers) do

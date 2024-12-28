@@ -11,13 +11,13 @@ return {
         -- end
     },
     {
-        "ilof2/posterpole.nvim",
-        priority = 1000,
-        config = function()
-            require("posterpole").setup({
-                transparent = true
-            })
-            vim.cmd("colorscheme posterpole")
-        end
+        -- "ilof2/posterpole.nvim",
+        -- priority = 1000,
+        -- config = function()
+        --     require("posterpole").setup({
+        --         transparent = true
+        --     })
+        --     vim.cmd("colorscheme posterpole")
+        -- end
     }
 }
