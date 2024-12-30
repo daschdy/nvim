@@ -1,42 +1,31 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "williamboman/mason.nvim",
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        "j-hui/fidget.nvim",
-        "stevearc/conform.nvim",
         "saghen/blink.cmp",
         {
-            -- vim omnicompletions
-            -- triggered with ctrl+x ctrl+o
-            -- checkout :help ins-completion
             "folke/lazydev.nvim",
-            ft = "lua", -- only load on lua files
+            ft = "lua",
             opts = {
                 library = {
-                    -- See the configuration section for more details
-                    -- Load luvit types when the `vim.uv` word is found
                     { path = "${3rd}/luv/library", words = { "vim%.uv" } },
                 },
             },
         },
+        "williamboman/mason.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
         {
             "williamboman/mason-lspconfig.nvim",
             opts = {
                 auto_install = false
             }
         },
-
+        "j-hui/fidget.nvim",
+        "stevearc/conform.nvim",
     },
 
-    opts = {
-        servers = {
-            lua_ls = {},
-            clangd = {}
-        }
-    },
+    config = function()
+        local key = vim.keymap
 
-    config = function(_, opts)
         require("mason").setup({
             ui = {
                 icons = {
@@ -71,11 +60,20 @@ return {
             },
         })
 
+        key.set("n", "<leader>cf", vim.lsp.buf.format)
+
+        local capabilities = require("blink.cmp").get_lsp_capabilities()
         local lspconfig = require("lspconfig")
-        for server, config in pairs(opts.servers) do
-            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            lspconfig[server].setup(config)
-        end
+        lspconfig.lua_ls.setup { capabilites = capabilities }
+        lspconfig.clangd.setup { capabilites = capabilities }
+
+        key.set("n", "K", vim.lsp.buf.hover)
+        key.set("n", "<leader>gd", vim.lsp.buf.definition)
+        key.set("n", "<leader>gr", vim.lsp.buf.references)
+        key.set("n", "<leader>ca", vim.lsp.buf.code_action)
+        key.set("n", "<leader>rn", vim.lsp.buf.rename)
+        key.set("n", "<leader>e", vim.diagnostic.open_float)
+
 
         -- Automatically format on save
         -- vim.api.nvim_create_autocmd("LspAttach", {
