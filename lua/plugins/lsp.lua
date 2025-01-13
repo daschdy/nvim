@@ -66,6 +66,7 @@ return {
         local lspconfig = require("lspconfig")
         lspconfig.lua_ls.setup { capabilites = capabilities }
         lspconfig.clangd.setup { capabilites = capabilities }
+        lspconfig.pylsp.setup { capabilities = capabilities }
 
         key.set("n", "K", vim.lsp.buf.hover)
         key.set("n", "<leader>gd", vim.lsp.buf.definition)
