@@ -1,14 +1,14 @@
 return {
     {
-        "bluz71/vim-moonfly-colors",
-        name = "moonfly",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            vim.g.moonflyItalics = true
-            vim.g.moonflyTransparent = false
-            vim.cmd.colorscheme("moonfly")
-        end
+        -- "bluz71/vim-moonfly-colors",
+        -- name = "moonfly",
+        -- lazy = false,
+        -- priority = 1000,
+        -- config = function()
+        --     vim.g.moonflyItalics = true
+        --     vim.g.moonflyTransparent = false
+        --     vim.cmd.colorscheme("moonfly")
+        -- end
     },
     {
         -- "ilof2/posterpole.nvim",
@@ -19,5 +19,17 @@ return {
         --     })
         --     vim.cmd("colorscheme posterpole")
         -- end
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            require("rose-pine").setup({
+                styles = {
+                    transparency = true
+                }
+            })
+            vim.cmd.colorscheme("rose-pine")
+        end
     }
 }
