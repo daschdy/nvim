@@ -21,15 +21,26 @@ return {
         -- end
     },
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
+        -- "rose-pine/neovim",
+        -- name = "rose-pine",
+        -- config = function()
+        --     require("rose-pine").setup({
+        --         styles = {
+        --             transparency = true
+        --         }
+        --     })
+        --     vim.cmd.colorscheme("rose-pine")
+        -- end
+    },
+    {
+        "navarasu/onedark.nvim",
+        name = "onedark",
         config = function()
-            require("rose-pine").setup({
-                styles = {
-                    transparency = true
-                }
+            require("onedark").setup({
+                transparent = true
             })
-            vim.cmd.colorscheme("rose-pine")
+            vim.cmd.colorscheme("onedark")
         end
     }
+
 }
