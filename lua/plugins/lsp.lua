@@ -37,6 +37,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "stylua",
+                "markdown",
             },
         })
 
@@ -57,6 +58,7 @@ return {
             formatters_by_ft = {
                 lua = { "stylua" },
                 c = { "clang-format" },
+                markdown = { "mdformat" }
             },
         })
 
@@ -67,6 +69,7 @@ return {
         lspconfig.lua_ls.setup { capabilites = capabilities }
         lspconfig.clangd.setup { capabilites = capabilities }
         lspconfig.pylsp.setup { capabilities = capabilities }
+        lspconfig.ltex.setup { capabilities = capabilities }
 
         key.set("n", "K", vim.lsp.buf.hover)
         key.set("n", "<leader>gd", vim.lsp.buf.definition)
