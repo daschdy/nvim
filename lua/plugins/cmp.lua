@@ -1,6 +1,6 @@
 return {
     {
-        -- "github/copilot.vim",
+        "github/copilot.vim",
     },
     {
       'saghen/blink.cmp',
