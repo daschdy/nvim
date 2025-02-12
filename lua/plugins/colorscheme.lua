@@ -33,14 +33,22 @@ return {
         -- end
     },
     {
-        "navarasu/onedark.nvim",
-        name = "onedark",
-        config = function()
-            require("onedark").setup({
-                transparent = true
-            })
-            vim.cmd.colorscheme("onedark")
+        -- "navarasu/onedark.nvim",
+        -- name = "onedark",
+        -- config = function()
+        --     require("onedark").setup({
+        --         transparent = true
+        --     })
+        --     vim.cmd.colorscheme("onedark")
+        -- end
+    },
+    {
+        "baliestri/aura-theme",
+        lazy = false,
+        priority = 1000,
+        config = function(plugin)
+            vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+            vim.cmd([[colorscheme aura-dark]])
         end
     }
-
 }
