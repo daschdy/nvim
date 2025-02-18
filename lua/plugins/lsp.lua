@@ -68,6 +68,7 @@ return {
         lspconfig.lua_ls.setup { capabilites = capabilities }
         lspconfig.clangd.setup { capabilites = capabilities }
         lspconfig.pyright.setup { capabilites = capabilities }
+        lspconfig.rust_analyzer.setup { capabilites = capabilities }
 
         key.set("n", "K", vim.lsp.buf.hover)
         key.set("n", "<leader>gd", vim.lsp.buf.definition)

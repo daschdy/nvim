@@ -10,7 +10,9 @@ return {
                 "vimdoc",
                 "markdown",
                 "markdown_inline",
-                "cpp"
+                "cpp",
+                "python",
+                "rust",
             },
             auto_install = false,
             highlight = {
