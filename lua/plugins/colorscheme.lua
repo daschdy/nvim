@@ -43,12 +43,19 @@ return {
         -- end
     },
     {
-        "baliestri/aura-theme",
-        lazy = false,
-        priority = 1000,
-        config = function(plugin)
-            vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
-            vim.cmd([[colorscheme aura-dark]])
-        end
+        -- "baliestri/aura-theme",
+        -- lazy = false,
+        -- priority = 1000,
+        -- config = function(plugin)
+        --     vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+        --     vim.cmd([[colorscheme aura-dark]])
+        -- end
+    },
+    {
+        -- Disable background color
+        vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }),
+        vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' }),
+        vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' }),
+        vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' }),
     }
 }
