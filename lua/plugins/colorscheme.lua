@@ -33,14 +33,14 @@ return {
         -- end
     },
     {
-        -- "navarasu/onedark.nvim",
-        -- name = "onedark",
-        -- config = function()
-        --     require("onedark").setup({
-        --         transparent = true
-        --     })
-        --     vim.cmd.colorscheme("onedark")
-        -- end
+        "navarasu/onedark.nvim",
+        name = "onedark",
+        config = function()
+            require("onedark").setup({
+                transparent = true
+            })
+            vim.cmd.colorscheme("onedark")
+        end
     },
     {
         -- "baliestri/aura-theme",
