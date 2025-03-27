@@ -1,14 +1,14 @@
-return {
+local M = {
     {
-        -- "bluz71/vim-moonfly-colors",
-        -- name = "moonfly",
-        -- lazy = false,
-        -- priority = 1000,
-        -- config = function()
-        --     vim.g.moonflyItalics = true
-        --     vim.g.moonflyTransparent = false
-        --     vim.cmd.colorscheme("moonfly")
-        -- end
+        "bluz71/vim-moonfly-colors",
+        name = "moonfly",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.g.moonflyItalics = true
+            vim.g.moonflyTransparent = false
+            vim.cmd.colorscheme("moonfly")
+        end
     },
     {
         -- "ilof2/posterpole.nvim",
@@ -33,14 +33,14 @@ return {
         -- end
     },
     {
-        "navarasu/onedark.nvim",
-        name = "onedark",
-        config = function()
-            require("onedark").setup({
-                transparent = true
-            })
-            vim.cmd.colorscheme("onedark")
-        end
+        -- "navarasu/onedark.nvim",
+        -- name = "onedark",
+        -- config = function()
+        --     require("onedark").setup({
+        --         transparent = true
+        --     })
+        --     vim.cmd.colorscheme("onedark")
+        -- end
     },
     {
         -- "baliestri/aura-theme",
@@ -53,9 +53,11 @@ return {
     },
     {
         -- Disable background color
-        vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }),
-        vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' }),
-        vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' }),
-        vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' }),
+        -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }),
+        -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' }),
+        -- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' }),
+        -- vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' }),
     }
 }
+
+return M

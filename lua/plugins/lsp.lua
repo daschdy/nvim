@@ -70,6 +70,12 @@ return {
         lspconfig.pyright.setup { capabilites = capabilities }
         lspconfig.rust_analyzer.setup { capabilites = capabilities }
 
+        -- markdown lsp
+        require('render-markdown').setup({
+            completions = { blink = { enabled = true } },
+        })
+
+
         key.set("n", "K", vim.lsp.buf.hover)
         key.set("n", "<leader>gd", vim.lsp.buf.definition)
         key.set("n", "<leader>gr", vim.lsp.buf.references)

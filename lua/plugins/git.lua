@@ -1,4 +1,4 @@
-return {
+local M = {
     {
         "tpope/vim-sleuth"
     },
@@ -15,3 +15,5 @@ return {
         },
     }
 }
+
+return M
