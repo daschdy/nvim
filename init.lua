@@ -41,8 +41,7 @@ key.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open diagnostic f
 key.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostic to loclist" })
 
 vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap("i", "<C-CR>", "copilot#Accept('<CR>')", { expr = true, silent = true, script = true })
-key.set("i", "<C-y>", "copilot#Accept('<CR>')", { expr = true, silent = true })
+vim.api.nvim_set_keymap("i", "<M-CR>", "copilot#Accept()", { expr = true, silent = true, script = true })
 
 key.set("n", "<leader>tt", "<cmd>split term://zsh", { desc = "Horizontal Terminal" })
 
