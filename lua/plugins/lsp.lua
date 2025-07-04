@@ -1,7 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "saghen/blink.cmp",
         {
             "folke/lazydev.nvim",
             ft = "lua",
@@ -12,13 +11,8 @@ return {
             },
         },
         "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
         "WhoIsSethDaniel/mason-tool-installer.nvim",
-        {
-            "williamboman/mason-lspconfig.nvim",
-            opts = {
-                auto_install = false
-            }
-        },
         "j-hui/fidget.nvim",
         "stevearc/conform.nvim",
     },
@@ -26,19 +20,13 @@ return {
     config = function()
         local key = vim.keymap
 
-        require("mason").setup({
-            ui = {
-                icons = {
-                    package_installed = "",
-                    package_pending = "",
-                    package_uninstalled = "",
-                },
-            },
-            ensure_installed = {
-                "lua_ls",
-                "stylua",
-                "markdown",
-            },
+        require("mason").setup()
+        local ensure_installed = {
+            "lua_ls",
+            "stylua",
+        }
+        require("mason-tool-installer").setup({
+            ensure_installed = ensure_installed,
         })
 
         require("fidget").setup({
