@@ -56,7 +56,7 @@ require("blink.cmp").setup({
 
 -- Copilot
 vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap("i", "<M-CR>", "copilot#Accept()", { expr = true, silent = true, script = true })
+key.set({ "n", "i" }, "<c-y>", "copilot#Accept()", { expr = true, silent = true, script = true })
 
 -- highlighting
 require("nvim-treesitter.configs").setup({
@@ -70,7 +70,10 @@ require("nvim-treesitter.configs").setup({
         "markdown",
         "python",
         "rust",
-        "go",
+        "svelte",
+        "typescript",
+        "html",
+        "css",
     },
     highlight = { enable = true }
 })
@@ -91,10 +94,6 @@ require("fidget").setup({
 })
 
 -- lsp
-require("Mason").setup()
-vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "gopls" })
-
--- disable lua warnings
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
@@ -105,7 +104,9 @@ vim.lsp.config("lua_ls", {
     }
 })
 
--- trigger lsp automatically
+require("Mason").setup()
+vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls"})
+
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
     callback = function(args)
@@ -142,6 +143,8 @@ key.set({ "n", "v" }, "<leader>y", '"+y<CR')
 key.set("n", "<leader>yy", '"+yy<CR')
 key.set({ "n", "v" }, "<leader>d", '"+d<CR')
 key.set("n", "<leader>dd", '"+dd<CR')
+key.set("n", "<leader>up", "<cmd>lua vim.pack.update()<CR>")
+
 
 key.set("n", "<leader>bh", "<C-w>h", { desc = "Move to left window" })
 key.set("n", "<leader>bj", "<C-w>j", { desc = "Move to below window" })
