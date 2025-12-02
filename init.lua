@@ -25,7 +25,9 @@ key.set("n", "<space>r", "<cmd>source %<CR>")
 vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
-    { src = "https://github.com/ibhagwan/fzf-lua" },
+    { src = "https://github.com/nvim-telescope/telescope.nvim" },
+    { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
     { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/mason-org/mason.nvim" },
@@ -105,7 +107,7 @@ vim.lsp.config("lua_ls", {
 })
 
 require("Mason").setup()
-vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls"})
+vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -161,9 +163,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- fzf
-key.set("n", "<leader>f", ":FzfLua files<CR>")
-key.set("n", "<leader>g", ":FzfLua grep<CR>")
-key.set("n", "<leader>h", ":FzfLua helptags<CR>")
+require("telescope").setup {
+    pickers = {
+        find_files = {
+            find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+            theme = "ivy",
+        },
+        live_grep = {
+            theme = "ivy",
+        }
+    },
+}
+key.set("n", "<leader>f", require("telescope.builtin").find_files)
+key.set("n", "<leader>g", require("telescope.builtin").live_grep)
+key.set("n", "<leader>gh", require("telescope.builtin").help_tags)
 
 -- file explorer
 key.set("n", "<leader>e", ":Explore<CR>")
