@@ -35,7 +35,8 @@ vim.pack.add({
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     { src = "https://github.com/j-hui/fidget.nvim" },
     { src = "https://github.com/rose-pine/neovim" },
-    { src = "https://github.com/github/copilot.vim" }
+    { src = "https://github.com/github/copilot.vim" },
+    { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })
 
 -- colorscheme
@@ -191,3 +192,10 @@ require("gitsigns").setup({
         changedelete = { text = "~" },
     },
 })
+
+-- tmux navigator
+key.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>")
+key.set("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>")
+key.set("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>")
+key.set("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>")
+key.set("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<CR>")
