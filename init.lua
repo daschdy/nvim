@@ -34,18 +34,17 @@ vim.pack.add({
     { src = "https://github.com/Saghen/blink.cmp" },
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     { src = "https://github.com/j-hui/fidget.nvim" },
-    { src = "https://github.com/rose-pine/neovim" },
+    { src = "https://github.com/serhez/teide.nvim" },
     { src = "https://github.com/github/copilot.vim" },
     { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })
 
 -- colorscheme
-require("rose-pine").setup({
-    styles = {
-        transparency = true,
-    },
+require("teide").setup({
+    style = "darker",
+    transparent = true,
 })
-vim.cmd("colorscheme rose-pine")
+vim.cmd("colorscheme teide")
 
 -- autocompletion
 require("blink.cmp").setup({
@@ -108,7 +107,7 @@ vim.lsp.config("lua_ls", {
 })
 
 require("Mason").setup()
-vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls" })
+vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls", "clangd" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
