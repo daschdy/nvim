@@ -35,16 +35,8 @@ vim.pack.add({
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     { src = "https://github.com/j-hui/fidget.nvim" },
     { src = "https://github.com/serhez/teide.nvim" },
-    { src = "https://github.com/github/copilot.vim" },
     { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })
-
--- colorscheme
-require("teide").setup({
-    style = "darker",
-    transparent = true,
-})
-vim.cmd("colorscheme teide")
 
 -- autocompletion
 require("blink.cmp").setup({
@@ -55,10 +47,6 @@ require("blink.cmp").setup({
     },
     signature = { enabled = true }
 })
-
--- Copilot
-vim.g.copilot_no_tab_map = true
-key.set({ "n", "i" }, "<c-y>", "copilot#Accept()", { expr = true, silent = true, script = true })
 
 -- highlighting
 require("nvim-treesitter.configs").setup({
@@ -106,8 +94,8 @@ vim.lsp.config("lua_ls", {
     }
 })
 
-require("Mason").setup()
-vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "tsserver", "ts_ls", "clangd" })
+require("mason").setup()
+vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "ts_ls" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -141,10 +129,10 @@ key.set("n", "<leader>dl", vim.diagnostic.setloclist)
 
 -- general
 key.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-key.set({ "n", "v" }, "<leader>y", '"+y<CR')
-key.set("n", "<leader>yy", '"+yy<CR')
-key.set({ "n", "v" }, "<leader>d", '"+d<CR')
-key.set("n", "<leader>dd", '"+dd<CR')
+key.set({ "n", "v" }, "<leader>y", '"+y<CR>')
+key.set("n", "<leader>yy", '"+yy<CR>')
+key.set({ "n", "v" }, "<leader>d", '"+d<CR>')
+key.set("n", "<leader>dd", '"+dd<CR>')
 key.set("n", "<leader>up", "<cmd>lua vim.pack.update()<CR>")
 
 
@@ -158,7 +146,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
     group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
     callback = function()
-        vim.hl.on_yank()
+        vim.hl.hl_op()
     end,
 })
 
