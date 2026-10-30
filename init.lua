@@ -25,18 +25,18 @@ key.set("n", "<space>r", "<cmd>source %<CR>")
 vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
-    { src = "https://github.com/nvim-telescope/telescope.nvim" },
-    { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
+    { src = "https://github.com/nvim-mini/mini.pick" },
     { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/mason-org/mason.nvim" },
     { src = "https://github.com/Saghen/blink.cmp" },
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     { src = "https://github.com/j-hui/fidget.nvim" },
-    { src = "https://github.com/serhez/teide.nvim" },
     { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })
+
+for _, g in ipairs({ "Normal", "NormalNC", "NormalFloat", "SignColumn", "EndOfBuffer" }) do
+    vim.api.nvim_set_hl(0, g, { bg = "none" })
+end
 
 -- autocompletion
 require("blink.cmp").setup({
@@ -48,24 +48,12 @@ require("blink.cmp").setup({
     signature = { enabled = true }
 })
 
--- highlighting
-require("nvim-treesitter.configs").setup({
-    auto_install = false,
-    sync_install = false,
-    ignore_install = {},
-    modules = {},
-    ensure_installed = {
-        "c",
-        "lua",
-        "markdown",
-        "python",
-        "rust",
-        "svelte",
-        "typescript",
-        "html",
-        "css",
-    },
-    highlight = { enable = true }
+-- highlighting (parsers + queries live in ~/.local/share/nvim/site/{parser,queries})
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("my.treesitter", { clear = true }),
+    callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+    end,
 })
 
 -- notification
@@ -95,7 +83,7 @@ vim.lsp.config("lua_ls", {
 })
 
 require("mason").setup()
-vim.lsp.enable({ "lua_ls", "texlab", "pyright", "clangd", "svelte", "ts_ls" })
+vim.lsp.enable({ "lua_ls", "pyright", "clangd", "ts_ls" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -146,25 +134,32 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
     group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
     callback = function()
-        vim.hl.hl_op()
+        vim.hl.on_yank()
     end,
 })
 
--- fzf
-require("telescope").setup {
-    pickers = {
-        find_files = {
-            find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
-            theme = "ivy",
-        },
-        live_grep = {
-            theme = "ivy",
-        }
+-- picker
+local pick = require("mini.pick")
+pick.setup({
+    window = {
+        -- full-width bottom panel, similar to telescope's ivy theme
+        config = function()
+            return { width = vim.o.columns, height = math.floor(vim.o.lines * 0.4) }
+        end,
     },
-}
-key.set("n", "<leader>f", require("telescope.builtin").find_files)
-key.set("n", "<leader>g", require("telescope.builtin").live_grep)
-key.set("n", "<leader>gh", require("telescope.builtin").help_tags)
+})
+key.set("n", "<leader>f", function()
+    pick.builtin.cli({ command = { "rg", "--files", "--hidden", "-g", "!.git" } }, {
+        source = {
+            name = "Files",
+            show = function(buf, items, query)
+                pick.default_show(buf, items, query, { show_icons = true })
+            end,
+        },
+    })
+end)
+key.set("n", "<leader>g", pick.builtin.grep_live)
+key.set("n", "<leader>gh", pick.builtin.help)
 
 -- file explorer
 key.set("n", "<leader>e", ":Explore<CR>")
