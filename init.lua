@@ -21,6 +21,7 @@ set.autoread = true
 set.autowrite = false
 
 key.set("n", "<space>r", "<cmd>source %<CR>")
+key.set("n", "<leader>R", "<cmd>restart<CR>")
 
 vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
@@ -30,7 +31,6 @@ vim.pack.add({
     { src = "https://github.com/mason-org/mason.nvim" },
     { src = "https://github.com/Saghen/blink.cmp" },
     { src = "https://github.com/rafamadriz/friendly-snippets" },
-    { src = "https://github.com/j-hui/fidget.nvim" },
     { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })
 
@@ -56,19 +56,28 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- notification
-require("fidget").setup({
-    notification = {
-        override_vim_notify = true,
-        view = {
-            stack_upwards = false,
-        },
-        window = {
-            border = "none",
-            align = "top",
-            winblend = 0,
-        },
+-- notification: built-in ui2 (experimental) replaces the message area/cmdline
+require("vim._core.ui2").enable({
+    msg = {
+        -- ephemeral floating window for messages and progress, like fidget
+        targets = { default = "msg" },
     },
+})
+
+-- show LSP progress (e.g. lua_ls indexing) as native progress messages
+vim.api.nvim_create_autocmd("LspProgress", {
+    group = vim.api.nvim_create_augroup("my.lsp-progress", { clear = true }),
+    callback = function(ev)
+        local value = ev.data.params.value
+        vim.api.nvim_echo({ { value.message or "done" } }, false, {
+            id = "lsp." .. ev.data.params.token,
+            kind = "progress",
+            source = "vim.lsp",
+            title = value.title,
+            status = value.kind ~= "end" and "running" or "success",
+            percent = value.percentage,
+        })
+    end,
 })
 
 -- lsp
@@ -160,6 +169,21 @@ key.set("n", "<leader>f", function()
 end)
 key.set("n", "<leader>g", pick.builtin.grep_live)
 key.set("n", "<leader>gh", pick.builtin.help)
+key.set("n", "<leader>bb", pick.builtin.buffers, { desc = "List buffers" })
+
+-- close every saved file buffer except the current one, keeping unsaved ones open
+key.set("n", "<leader>bd", function()
+    local current = vim.api.nvim_get_current_buf()
+    local closed = 0
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if buf ~= current and vim.bo[buf].buflisted and vim.bo[buf].buftype == "" and not vim.bo[buf].modified then
+            if pcall(vim.api.nvim_buf_delete, buf, {}) then
+                closed = closed + 1
+            end
+        end
+    end
+    vim.notify(("Closed %d saved buffer(s)"):format(closed))
+end, { desc = "Close saved buffers" })
 
 -- file explorer
 key.set("n", "<leader>e", ":Explore<CR>")
@@ -175,9 +199,3 @@ require("gitsigns").setup({
     },
 })
 
--- tmux navigator
-key.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>")
-key.set("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>")
-key.set("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>")
-key.set("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>")
-key.set("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<CR>")
